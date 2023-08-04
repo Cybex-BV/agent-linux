@@ -119,7 +119,7 @@ mkdir -p /etc/zuluwarrior
 mkdir -p /etc/zuluwarrior/log
 
 # Download agent
-echo -e "|   Downloading agent.sh to /etc/zuluwarrior\n|\n|   + $(curl -JLso /etc/zuluwarrior/agent.sh https://github.com/Digital-Brain-BV/agent-linux/raw/master/agent.sh)"
+echo -e "|   Downloading agent.sh to /etc/zuluwarrior\n|\n|   + $(curl -JLso /etc/zuluwarrior/agent.sh https://raw.githubusercontent.com/Digital-Brain-BV/agent-linux/main/agent.sh)"
 
 if [ -f /etc/zuluwarrior/agent.sh ]
 then
