@@ -4,12 +4,12 @@
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Prepare output
-echo -e "|\n|   ZuluWarrior Installer\n|   ===================\n|"
+echo -e "|\n|   Cybex Installer\n|   ===================\n|"
 
 # Check if user is root
 if [ $(id -u) != "0" ];
 then
-	echo -e "|   Error: You need to be root to install the ZuluWarrior agent\n|"
+	echo -e "|   Error: You need to be root to install the Cybex agent\n|"
 	echo -e "|          The agent itself will NOT be running as root but instead under its own non-privileged user\n|"
 	exit 1
 fi
@@ -98,48 +98,48 @@ then
 fi
 
 # Attempt to delete previous agent
-if [ -f /etc/zuluwarrior/agent.sh ]
+if [ -f /etc/cybex/agent.sh ]
 then
 	# Remove agent dir
-	rm -Rf /etc/zuluwarrior
+	rm -Rf /etc/cybex
 
 	# Remove cron entry and user
-	if id -u zuluwarrior >/dev/null 2>&1
+	if id -u cybex >/dev/null 2>&1
 	then
-		(crontab -u zuluwarrior -l | grep -v "/etc/zuluwarrior/agent.sh") | crontab -u zuluwarrior - && userdel zuluwarrior
+		(crontab -u cybex -l | grep -v "/etc/cybex/agent.sh") | crontab -u cybex - && userdel cybex
 	else
-		(crontab -u root -l | grep -v "/etc/zuluwarrior/agent.sh") | crontab -u root -
+		(crontab -u root -l | grep -v "/etc/cybex/agent.sh") | crontab -u root -
 	fi
 fi
 
 # Create agent dir
-mkdir -p /etc/zuluwarrior
+mkdir -p /etc/cybex
 
 # Create log dir
-mkdir -p /etc/zuluwarrior/log
+mkdir -p /etc/cybex/log
 
 # Download agent
-echo -e "|   Downloading agent.sh to /etc/zuluwarrior\n|\n|   + $(curl -JLso /etc/zuluwarrior/agent.sh https://github.com/zuluwarrior/agent/raw/master/agent.sh)"
+echo -e "|   Downloading agent.sh to /etc/cybex\n|\n|   + $(curl -JLso /etc/cybex/agent.sh https://github.com/cybex/agent/raw/master/agent.sh)"
 
-if [ -f /etc/zuluwarrior/agent.sh ]
+if [ -f /etc/cybex/agent.sh ]
 then
 	# Create auth file
-	echo "$1" > /etc/zuluwarrior/token.conf
+	echo "$1" > /etc/cybex/token.conf
 	
 	# Create user
-	useradd zuluwarrior -r -d /etc/zuluwarrior -s /bin/false
+	useradd cybex -r -d /etc/cybex -s /bin/false
 	
 	# Modify user permissions
-	chown -R zuluwarrior:zuluwarrior /etc/zuluwarrior && chmod -R 700 /etc/zuluwarrior
+	chown -R cybex:cybex /etc/cybex && chmod -R 700 /etc/cybex
 	
 	# Modify ping permissions
 	chmod +s `type -p ping`
 
 	# Configure cron
-	crontab -u zuluwarrior -l 2>/dev/null | { cat; echo "* * * * * bash /etc/zuluwarrior/agent.sh > /etc/zuluwarrior/log/cron.log 2>&1"; } | crontab -u zuluwarrior -
+	crontab -u cybex -l 2>/dev/null | { cat; echo "* * * * * bash /etc/cybex/agent.sh > /etc/cybex/log/cron.log 2>&1"; } | crontab -u cybex -
 	
 	# Show success
-	echo -e "|\n|   Success: The ZuluWarrior agent has been installed\n|"
+	echo -e "|\n|   Success: The Cybex agent has been installed\n|"
 	
 	# Attempt to delete installation script
 	if [ -f $0 ]
@@ -148,5 +148,5 @@ then
 	fi
 else
 	# Show error
-	echo -e "|\n|   Error: The ZuluWarrior agent could not be installed\n|"
+	echo -e "|\n|   Error: The Cybex agent could not be installed\n|"
 fi
