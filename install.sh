@@ -119,7 +119,7 @@ mkdir -p /etc/cybex
 mkdir -p /etc/cybex/log
 
 # Download agent
-echo -e "|   Downloading agent.sh to /etc/cybex\n|\n|   + $(curl -JLso /etc/cybex/agent.sh https://github.com/cybex/agent/raw/master/agent.sh)"
+echo -e "|   Downloading agent.sh to /etc/cybex\n|\n|   + $(curl -JLso /etc/cybex/agent.sh https://raw.githubusercontent.com/Digital-Brain-BV/agent-linux/main/agent.sh)"
 
 if [ -f /etc/cybex/agent.sh ]
 then
